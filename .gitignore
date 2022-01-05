@@ -110,7 +110,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-secrets
+secrets.py
 
 # Spyder project settings
 .spyderproject
