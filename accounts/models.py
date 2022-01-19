@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractBaseUser
 
 class User(AbstractBaseUser):
     user_id = models.CharField(max_length=50, null=False, unique=True)
+    USERNAME_FIELD = 'user_id'
     
     def __str__(self):
         return self.user_id
