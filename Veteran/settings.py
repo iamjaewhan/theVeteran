@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+import json
+import sys
+import datetime
 
 from .secrets import VETERAN_SECRET
 
@@ -21,6 +25,7 @@ AUTH_USER_MODEL = 'accounts.User'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+ROOT_DIR = os.path.dirname(BASE_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -45,10 +50,38 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'api',
     'accounts',
     'game',
 ]
+
+## DRF
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES' : (
+        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAdminUser',
+        'rest_framework.permissions.AllowAny',
+            
+    ),
+    
+    'DEFAULT_AUTHENTICATION_CLASSES' : (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+
+JWT_AUTH = {
+    'JWT_SECRET_KEY': SECRET_KEY,
+    'JWT_ALGORITHM': 'HS256', # 암호화 알고리즘
+    'JWT_ALLOW_REFRESH': True, # refresh 사용 여부
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7), # 유효기간 설정
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=28), # JWT 토큰 갱신 유효기간
+
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -65,7 +98,7 @@ ROOT_URLCONF = 'Veteran.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
