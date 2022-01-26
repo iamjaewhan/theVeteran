@@ -2,8 +2,8 @@ from django.shortcuts import render
 
 from .models import User
 from django.views import generic
-from django.views.generic import TemplateView
-from .forms import UserRegisterForm
+from django.views.generic import TemplateView, CreateView
+from .forms import UserForm
 from django.contrib.auth import get_user_model
 
 # Create your views here.
@@ -11,8 +11,7 @@ from django.contrib.auth import get_user_model
 class WelcomeView(TemplateView):
     template_name = 'accounts/welcome.html'
 
-class UserRegister(generic.CreateView):
-    model = get_user_model()
-    fields = ['user_id', 'password']
-    template_name = 'accounts/join.html'
+class UserRegister(CreateView):
+    form_class = UserForm
+    template_name = 'accounts/signup.html'
     success_url = '/'
