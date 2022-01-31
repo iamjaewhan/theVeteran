@@ -15,6 +15,10 @@ class Game(models.Model):
         else:
             return True
         
+    def get_unprogressed():
+        games = list(filter(lambda x:x.is_Progressed(), Game.objects.all()))
+        return games
+        
     
 class Game_Participants(models.Model):
     game = models.ForeignKey(Game, on_delete=models.RESTRICT)
@@ -22,3 +26,11 @@ class Game_Participants(models.Model):
 
     class Meta:
         unique_together = (('game','user'))
+    
+    def get_participants(self):
+        return len(Objects.filter(game=self.game))
+        
+        
+class Game_numOfP(models.Model):
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    numOfP = models.IntegerField()
