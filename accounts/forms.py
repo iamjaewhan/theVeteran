@@ -4,4 +4,4 @@ from django.contrib.auth.forms import UserCreationForm
 class UserForm(UserCreationForm):
     class Meta:
         model = get_user_model()
-        fields = ['user_id',]
+        fields = ['user_id', 'name']

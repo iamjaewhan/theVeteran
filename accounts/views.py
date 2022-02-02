@@ -1,18 +1,30 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
+
+from django.views import generic, View
+from django.views.generic import  CreateView
+from django.contrib.auth import get_user_model
+from django.http import HttpResponse, JsonResponse
 
 from .models import User
-from django.views import generic
-from django.views.generic import TemplateView, CreateView
 from .forms import UserForm
-from django.contrib.auth import get_user_model
 
 # Create your views here.
-
-class WelcomeView(TemplateView):
-    template_name = 'accounts/welcome.html'
-
-class UserRegister(CreateView):
-    model = User
-    form_class = UserForm
-    template_name = 'accounts/signup.html'
-    success_url = ''
+class UserRegister(View):
+    def get(self, request):
+        print('request method is GET!!!')
+        form = UserForm
+        return render(request, 'accounts/signup.html', {'form' : form})
+    
+    def post(self, request):
+        data = json.loads(request, body)
+        
+        if Account.objects.filter(user_id = data['user_id']).exists():
+            return JsonResponse({'message' : 'USER_EXISTS'}, status = 400)
+        Account(
+            user_id = data['user_id'],
+            name = data['name'],
+            password = data['password']
+        ).save()
+        
+        return redirect('welcome')

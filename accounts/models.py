@@ -17,10 +17,9 @@ class CustomUserManager(UserManager):
 
 class User(AbstractBaseUser):
     user_id = models.CharField(max_length=50, unique=True, verbose_name='아이디')
+    name = models.CharField(max_length=20, null=False, default="player")
     
     USERNAME_FIELD = 'user_id'
-    
-    objects = CustomUserManager()
     
     def __str__(self):
         return self.user_id

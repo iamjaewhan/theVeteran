@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
+{% block style %}
+{% endblock %}
 {% block content %}
 <form>
     {% csrf_token %}
+    <form action="{% url 'accounts:signup-form' %}" method="post">
     {% for field in form %}
     <label for="{{ field.id_for_label }}">{{ field.label }}</label>
     <input type="{{ field.field.widget.input_type }}"
@@ -14,5 +17,6 @@
     <div class="invalid-feedback">{{ error }}</div>
     {% endfor %}
     <button type="submit" class="btn btn-primary btn-lg btn-block">가입</button>
+    </form>
 </form>
 {% endblock %}
