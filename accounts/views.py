@@ -12,6 +12,7 @@ class WelcomeView(TemplateView):
     template_name = 'accounts/welcome.html'
 
 class UserRegister(CreateView):
+    model = User
     form_class = UserForm
     template_name = 'accounts/signup.html'
-    success_url = '/'
+    success_url = ''
