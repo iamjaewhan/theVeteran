@@ -10,7 +10,13 @@ from .models import User
 from .forms import UserForm
 
 # Create your views here.
-class UserRegister(View):
+class UserRegister(CreateView):
+    template_name = 'accounts/signup.html'
+    model = get_user_model()
+    form_class = UserForm
+    success_url = ''
+    
+    """
     def get(self, request):
         print('request method is GET!!!')
         form = UserForm
@@ -28,3 +34,4 @@ class UserRegister(View):
         ).save()
         
         return redirect('welcome')
+    """
